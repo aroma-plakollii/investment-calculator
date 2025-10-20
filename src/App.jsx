@@ -3,24 +3,22 @@ import { useState } from "react";
 import Header from './components/Header';
 import InvestmentParameters from './components/InvesmentParameters';
 import ResultsTable from './components/ResultsTable';
-import { calculateInvestmentResults } from './util/investment';
 
 function App() {
   const [investment, setInvestment] = useState({
-        initialInvestment: undefined,
-        annualInvestment: undefined,
-        expectedReturn: undefined,
-        duration: undefined
+        initialInvestment: 10000,
+        annualInvestment: 1200,
+        expectedReturn: 6,
+        duration: 10
   });
 
-  const investmentResults = calculateInvestmentResults(investment);
+  const inputIsValid = investment.duration > 0;
 
-  const handleChange = (e, name) => {
-      const value = +e.target.value;
+  const handleChange = (name, value) => {
       setInvestment((prevInvestment) => {
           return {
               ...prevInvestment,
-              [name] : value
+              [name] : +value
           }
       });
   }
@@ -29,7 +27,7 @@ function App() {
       <>
         <Header />
         <InvestmentParameters investment={investment} handleChange={handleChange} />
-        <ResultsTable investmentResults={investmentResults} />
+        {inputIsValid ? <ResultsTable investment={investment} /> : <p className='center'>Write a duration greater thatn zero</p>}
       </>
   );
 }

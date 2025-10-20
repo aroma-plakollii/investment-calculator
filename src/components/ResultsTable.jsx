@@ -1,6 +1,9 @@
-import { formatter } from "../util/investment";
+import { calculateInvestmentResults, formatter } from "../util/investment";
 
-const ResultsTable = ({investmentResults}) => {
+const ResultsTable = ({investment}) => {
+
+    let investmentResults = calculateInvestmentResults(investment);
+
     return (
         <table id="result">
             <thead>
@@ -19,7 +22,7 @@ const ResultsTable = ({investmentResults}) => {
                         <td>{formatter.format(results.valueEndOfYear)}</td>
                         <td>{formatter.format(results.interest)}</td>
                         <td>{formatter.format(results.totalInterest)}</td>
-                        <td>{formatter.format(results.valueEndOfYear + results.annualInvestment)}</td>
+                        <td>{formatter.format(results.valueEndOfYear - results.totalInterest)}</td>
                     </tr>
                 ))}
             </tbody>
